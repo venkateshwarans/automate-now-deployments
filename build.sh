@@ -1,0 +1,1 @@
+export buildNameSaras=afor && npm run build && npm run export  -- afor && export buildNameSaras=bfor && npm run build && npm run export  -- bfor && export buildNameSaras=cfor && npm run build && npm run export  -- cfor
