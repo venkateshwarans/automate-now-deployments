@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3002",
     "build": "next build",
     "export": "next export -o $dir"
   },
@@ -12,7 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@contentful/rich-text-html-renderer": "^13.4.0",
+    "@contentful/rich-text-react-renderer": "^13.4.0",
     "contentful": "^7.14.2",
+    "lodash": "^4.17.15",
     "next": "^9.3.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
