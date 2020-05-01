@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import _ from 'lodash';
-
+import {WarehouseHeader} from "../components/WarehouseHeader"
 import { siteDetails } from "../data/site-details";
 import { fetchPosts, fetchImages, getRenderedHTML } from "../helper/fetchData";
+
 const gridCell = {
   color: "white",
   padding: "30px",
@@ -27,6 +28,7 @@ const gridlogo = {
 function HomePage() {
   const [posts, setPosts] = useState([]);
   const [images, setImages] = useState([]);
+  const wareHouse = posts && posts.items && _.first(posts.items);
   useEffect(() => {
     async function getImages() {
       const allImages = await fetchImages();
@@ -44,9 +46,11 @@ function HomePage() {
   }, []);
 
   return (
-    <div style={contentArea}>
+    <div>{
+      wareHouse ?
+      <>
       <Head>
-        <title>{siteDetails[process.env.siteTitle].title}</title>
+        <title>{wareHouse.fields.title}</title>
 
         <link
           rel="stylesheet"
@@ -54,46 +58,41 @@ function HomePage() {
           type="text/css"
         />
       </Head>
-      {/* {siteDetails[process.env.siteTitle]["title"]} */}
       <div>
         <div className="posts">
-          {posts.items && posts.items.length > 0
-            ? posts.items.map(p => {
-              console.log(p)
-              const renderedHtml = getRenderedHTML(p.fields.content);
-              return (
-                <div>
-                  {console.log(posts.includes)}
-                  <img src={`${siteDetails[process.env.siteTitle].logo}`} alt="" />
-                  <img src={`${p.fields.postImage.fields.file.url}`} alt="" />
-                  <h1>{p.fields.title}</h1>
-                  <div>{renderedHtml}</div>
-                </div>
-              )
-            })
-            : null}
+          <div>
+            <WarehouseHeader sourceImage={wareHouse.fields.postImage.fields.file.url}
+              destinationImage={'looker.jpg'}>
+            </WarehouseHeader>
+            <h1>{wareHouse.fields.title}</h1>
+            <div>{getRenderedHTML(wareHouse.fields.content)}</div>
+          </div>
         </div>
-        <table style={tableStyle}>
-          <tbody>
-            <tr>
-              {images.length > 0
-                ? images.map((p) => (
+        <div style={contentArea}>
+          <table style={tableStyle}>
+            <tbody>
+              <tr>
+                {images.length > 0
+                  ? images.map((p) => (
 
-                  <td key={p.fields.title} style={gridCell}>
-                    <a href="#">
-                      <img
-                        style={gridlogo}
-                        src={p.fields.file.url}
-                        alt={p.fields.title}
-                      />
-                    </a>
-                  </td>
-                ))
-                : null}
-            </tr>
-          </tbody>
-        </table>
+                    <td key={p.fields.title} style={gridCell}>
+                      <a href="#">
+                        <img
+                          style={gridlogo}
+                          src={p.fields.file.url}
+                          alt={p.fields.title}
+                        />
+                      </a>
+                    </td>
+                  ))
+                  : null}
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+      </> : null
+      }
     </div>
   );
 }

@@ -5,7 +5,10 @@ public/
 afor/
 cfor/
 bfor/
+dfor/
 data/
 .next
 .env.build
 saras/
+amazondynamodb/
+amazonrds/

@@ -8,10 +8,7 @@ import _ from 'lodash';
 export async function fetchPosts() {
   const entries = await client.getEntries({
     content_type: "post",
-    'fields.tag.sys.id': '6mZQPJodbURKfgSo4v9QiB'
-    // 'fields.tag.fields.tagName[match]': 'adroll'
-
-
+    'fields.tag.sys.id': process.env.wareHouse
   })
   if (entries) return entries
   console.log(`Error getting Entries for ${contentType.name}.`)
